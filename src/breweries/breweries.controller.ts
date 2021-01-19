@@ -3,16 +3,21 @@ import {
     Get,
     Param,
 } from '@nestjs/common';
+import { BreweriesService } from './breweries.service';
+import { AxiosResponse } from 'axios';
+import { Observable } from 'rxjs';
 
 @Controller('breweries')
 export class BreweriesController {
+    constructor(private breweries: BreweriesService) {}
+
     @Get()
-    getAll(): string {
-        return 'Gets all breweries';
+    getAll(): Observable<AxiosResponse<any>> {
+        return this.breweries.findAll();
     }
 
     @Get(':id')
     getOne(@Param('id') id: string): string {
-        return `Gets one brewery: ${id} ${process.env.API_KEY}`;
+        return `Gets one brewery: ${id}`;
     }
 }
